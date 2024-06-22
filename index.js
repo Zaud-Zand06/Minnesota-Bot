@@ -1,6 +1,10 @@
 require("dotenv").config(); //initializes dotenvimport
 const fs = require("fs");
 const path = require("path");
+const ffmpeg = require("ffmpeg-static");
+const { addKill, addRecentKills, getMostRecentKill } = require("./killCounter");
+const { joinVoiceChannel } = require("@discordjs/voice");
+const { minnesotaRadio } = require("./minnesotaRadio");
 const {
   Client,
   GatewayIntentBits,
@@ -8,18 +12,19 @@ const {
   Collection,
   Events,
 } = require("discord.js");
-const { kill } = require("process");
 
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildVoiceStates,
     // Add other intents as needed
   ],
   partials: ["MESSGE", "CHANNEL", "REACTION"],
   messageCacheMaxSize: 100,
 });
+
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, "commands");
 const commandFolders = fs.readdirSync(foldersPath);
@@ -41,33 +46,6 @@ for (const folder of commandFolders) {
   }
 }
 
-const killCount = (function () {
-  let megKillCount = undefined;
-  if (fs.existsSync("killCount.json")) {
-    megKillCount = Number(
-      JSON.parse(fs.readFileSync("killCount.json", "utf-8"))
-    );
-  } else {
-    megKillCount = 0;
-  }
-
-  function addKill(number) {
-    megKillCount += number;
-    fs.writeFileSync("killCount.json", JSON.stringify(megKillCount), "utf-8");
-  }
-
-  function killTally() {
-    return megKillCount;
-  }
-
-  function clearTally() {
-    megKillCount = 0;
-    fs.writeFileSync("killCount.json", JSON.stringify(megKillCount), "utf-8");
-  }
-
-  return { addKill, killTally, clearTally };
-})();
-
 //response images and the regex for them
 const minnesota = "./minnesota.png";
 const minnesotaRegex = /minnesota/i;
@@ -78,6 +56,8 @@ const hellDiverRegex = /hell\s?divers?/i;
 const canadaMentioend = "./canadamentioned.webp";
 const canadaRegex = /(alberta|canada|vancouver)/i;
 const jermaRegex = /jermas?/i;
+const loca = "./bella.gif";
+const twilightRegex = /twilight|bella|loca/i;
 
 const minnesotaFacts = [
   `The name "Minnesota" comes from Dakota Indigenous words meaning "sky-tinted waters" or "sky-blue waters."`,
@@ -87,15 +67,40 @@ const minnesotaFacts = [
   `We all know Prince and Bob Dylan, but Minnesota is home to Judy Garland, Robert Bly, and George "Pinky" Nelson!`,
   "Minnesota is known for its tourism, and it's agriculture industries!",
 ];
-const fact = minnesotaFacts[Math.floor(Math.random() * minnesotaFacts.length)];
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on("messageCreate", (msg) => {
-  if (minnesotaRegex.test(msg.content)) {
-    msg.reply({ files: [minnesota] });
+  const fact =
+    minnesotaFacts[Math.floor(Math.random() * minnesotaFacts.length)];
+  if (
+    minnesotaRegex.test(msg.content) &&
+    msg.author.id !== "1220688585708142623"
+  ) {
+    const voiceChannel = msg.member.voice.channel;
+    if (voiceChannel) {
+      msg.reply({ files: [minnesota], content: fact });
+      const connection = joinVoiceChannel({
+        channelId: voiceChannel.id,
+        guildId: voiceChannel.guild.id,
+        adapterCreator: voiceChannel.guild.voiceAdapterCreator,
+        selfDeaf: false,
+      });
+      connection.on("stateChange", (oldState, newState) => {
+        console.log(
+          `Connection transitioned from ${oldState.status} to ${newState.status}`
+        );
+      });
+
+      minnesotaRadio(connection);
+    } else {
+      msg.reply({
+        files: [minnesota],
+        content: "Minnesota bot is real. Join a Voice Channel and try again.",
+      });
+    }
   }
 });
 
@@ -118,6 +123,12 @@ client.on("messageCreate", (msg) => {
 });
 
 client.on("messageCreate", (msg) => {
+  if (twilightRegex.test(msg.content)) {
+    msg.reply({ files: [loca] });
+  }
+});
+
+client.on("messageCreate", (msg) => {
   if (jermaRegex.test(msg.content)) {
     fs.readdir("./pics", (err, files) => {
       if (err) throw err;
@@ -128,7 +139,7 @@ client.on("messageCreate", (msg) => {
   }
 });
 
-//event listener for chat messages, responds with meme if possible
+//event listener for slash commands
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
   const command = interaction.client.commands.get(interaction.commandName);
@@ -162,14 +173,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
   const deathNumber = Number(
     interaction.fields.fields.get("deathNumber").value
   );
-  const deathDescription = interaction.fields.fields.get(
-    "deathDescription".value
-  );
-  console.log(deathNumber);
-  console.log(typeof deathNumber);
-  console.log(killCount.killTally());
-  killCount.addKill(deathNumber);
-  console.log(killCount.killTally());
+  const deathDescription =
+    interaction.fields.fields.get("deathDescription").value;
+  const victim = interaction.user.globalName;
+  addKill(deathNumber);
+  addRecentKills(deathNumber, deathDescription, victim);
 
   await interaction.reply({
     content: `her hunger grows deeper.....`,
