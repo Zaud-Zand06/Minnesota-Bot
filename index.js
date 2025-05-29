@@ -1,10 +1,7 @@
 require("dotenv").config(); //initializes dotenvimport
 const fs = require("fs");
 const path = require("path");
-const ffmpeg = require("ffmpeg-static");
-const { addKill, addRecentKills, getMostRecentKill } = require("./killCounter");
 const { joinVoiceChannel } = require("@discordjs/voice");
-const { minnesotaRadio } = require("./minnesotaRadio");
 const {
   Client,
   GatewayIntentBits,
@@ -58,6 +55,7 @@ const canadaRegex = /(alberta|canada|vancouver)/i;
 const jermaRegex = /jermas?/i;
 const loca = "./bella.gif";
 const twilightRegex = /twilight|bella|loca/i;
+const gorpersRegex = /any gorpers tonight/i;
 
 const minnesotaFacts = [
   `The name "Minnesota" comes from Dakota Indigenous words meaning "sky-tinted waters" or "sky-blue waters."`,
@@ -79,28 +77,12 @@ client.on("messageCreate", (msg) => {
     minnesotaRegex.test(msg.content) &&
     msg.author.id !== "1220688585708142623"
   ) {
-    const voiceChannel = msg.member.voice.channel;
-    if (voiceChannel) {
-      msg.reply({ files: [minnesota], content: fact });
-      const connection = joinVoiceChannel({
-        channelId: voiceChannel.id,
-        guildId: voiceChannel.guild.id,
-        adapterCreator: voiceChannel.guild.voiceAdapterCreator,
-        selfDeaf: false,
-      });
-      connection.on("stateChange", (oldState, newState) => {
-        console.log(
-          `Connection transitioned from ${oldState.status} to ${newState.status}`
-        );
-      });
-
-      minnesotaRadio(connection);
-    } else {
-      msg.reply({
-        files: [minnesota],
-        content: "Minnesota bot is real. Join a Voice Channel and try again.",
-      });
-    }
+    msg.reply({ files: [minnesota], content: fact });
+  }
+});
+client.on("messageCreate", (msg) => {
+  if (gorpersRegex.test(msg.content)) {
+    msg.reply({ content: `i'll be gorping tonight ;)` });
   }
 });
 
