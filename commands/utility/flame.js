@@ -86,6 +86,7 @@ const wordList = [
   "Backstabber",
   "Treacherous swine",
   "fake gamer",
+  "muddddaaaa fuckaaaa",
 ];
 const wordListGood = [
   "Real Gamer",
@@ -101,6 +102,10 @@ const wordListGood = [
   "Loyal",
   "My daughter killed herself 6 weeks ago",
 ];
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -123,6 +128,7 @@ module.exports = {
       await interaction.reply({ content: "Nice try ;)", ephemeral: true });
       for (let compliment of compliments) {
         await interaction.channel.send(compliment);
+        await wait(250);
       }
     } else {
       let insults = [];
