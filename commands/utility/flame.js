@@ -33,7 +33,7 @@ const wordList = [
   "Lowlife",
   "Scumbag",
   "Son of a bitch",
-  "Motherf***er",
+  "Motherfucker",
   "Prick",
   "Asshole",
   "Jerk",
