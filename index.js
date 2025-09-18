@@ -37,7 +37,7 @@ for (const folder of commandFolders) {
       client.commands.set(command.data.name, command);
     } else {
       console.log(
-        `[WARNING] The command at ${filePath} is missing "data" or "execute" property`
+        `[WARNING] The command at ${filePath} is missing "data" or "execute" property`,
       );
     }
   }
@@ -146,25 +146,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
       });
     }
   }
-});
-
-//event listner for the modal sumbit
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isModalSubmit()) return;
-
-  const deathNumber = Number(
-    interaction.fields.fields.get("deathNumber").value
-  );
-  const deathDescription =
-    interaction.fields.fields.get("deathDescription").value;
-  const victim = interaction.user.globalName;
-  addKill(deathNumber);
-  addRecentKills(deathNumber, deathDescription, victim);
-
-  await interaction.reply({
-    content: `her hunger grows deeper.....`,
-    ephemeral: true,
-  });
 });
 
 //this line must be at the very end
