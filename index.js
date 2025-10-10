@@ -22,6 +22,8 @@ const client = new Client({
   messageCacheMaxSize: 100,
 });
 
+client.bulliedUsers = new Set();
+
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, "commands");
 const commandFolders = fs.readdirSync(foldersPath);
@@ -68,6 +70,16 @@ const minnesotaFacts = [
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
+});
+
+client.on("messageCreate", (msg) => {
+  // Ignore messages from any bot
+  if (msg.author.bot) return;
+  // Check if the message author is in our bulliedUsers set
+  if (client.bulliedUsers.has(msg.author.id)) {
+    // Reply to the user and stop further processing for this message
+    return msg.reply("lol ok boomer");
+  }
 });
 
 client.on("messageCreate", (msg) => {
