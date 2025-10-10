@@ -22,8 +22,8 @@ module.exports = {
         // Your personal check
         if (targetId === myId) {
             return interaction.reply({
-                content: "ya as if bozo",
-                ephemeral: true,
+                content: "THIS GUY 🫵 THINKS HE CAN BULLY THE GOAT 🤣🤣🤣",
+                ephemeral: false,
             });
         }
 
