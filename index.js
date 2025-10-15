@@ -78,7 +78,16 @@ client.on("messageCreate", (msg) => {
   // Check if the message author is in our bulliedUsers set
   if (client.bulliedUsers.has(msg.author.id)) {
     // Reply to the user and stop further processing for this message
-    return msg.reply("lol ok boomer");
+    const replies = [
+      "your mom",
+      "lol ok boomer",
+      "says the nerd",
+      "nah",
+      "🤓 <---- this is you btw",
+      "mad cus bad or something",
+    ];
+    const randomReply = replies[Math.floor(Math.random() * replies.length)];
+    return msg.reply({ content: randomReply });
   }
 });
 
