@@ -73,11 +73,9 @@ client.on("ready", () => {
 });
 
 client.on("messageCreate", (msg) => {
-  // Ignore messages from any bot
   if (msg.author.bot) return;
-  // Check if the message author is in our bulliedUsers set
+
   if (client.bulliedUsers.has(msg.author.id)) {
-    // Reply to the user and stop further processing for this message
     const replies = [
       "your mom",
       "lol ok boomer",
