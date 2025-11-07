@@ -68,7 +68,7 @@ const minnesotaFacts = [
   "Minnesota is known for its tourism, and it's agriculture industries!",
 ];
 
-client.on("ready", () => {
+client.on("clientReady", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
