@@ -58,6 +58,8 @@ const jermaRegex = /jermas?/i;
 const loca = "./bella.gif";
 const twilightRegex = /twilight|bella|loca/i;
 const gorpersRegex = /any gorpers tonight/i;
+const dontKys = "./pics/noDontKys.jpg";
+const kmsRegex = /kms|kill myself|end me|going to do it/i;
 
 const minnesotaFacts = [
   `The name "Minnesota" comes from Dakota Indigenous words meaning "sky-tinted waters" or "sky-blue waters."`,
@@ -68,8 +70,8 @@ const minnesotaFacts = [
   "Minnesota is known for its tourism, and it's agriculture industries!",
 ];
 
-client.on("ready", () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+client.on("clientReady", () => {
+  console.log(`Logged in as ${client.user.tag}! Started: ${new Date()}`);
 });
 
 client.on("messageCreate", (msg) => {
@@ -102,6 +104,13 @@ client.on("messageCreate", (msg) => {
 client.on("messageCreate", (msg) => {
   if (gorpersRegex.test(msg.content)) {
     msg.reply({ content: `i'll be gorping tonight ;)` });
+  }
+});
+
+client.on("messageCreate", (msg) => {
+  const dylanId = "226529102352482324";
+  if (msg.author.id === dylanId && kmsRegex.test(msg.content)) {
+    msg.reply({ files: [dontKys] });
   }
 });
 
