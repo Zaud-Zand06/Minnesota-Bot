@@ -28,9 +28,7 @@ function extractRating(entry) {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("review-random-movie")
-    .setDescription(
-      `grabs a "random" movie review from letterboxd to discuss!`,
-    ),
+    .setDescription(`ask minnesota bot to review a random movie!`),
 
   async execute(interaction) {
     const recentMovies = [];
