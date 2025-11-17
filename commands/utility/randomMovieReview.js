@@ -81,10 +81,7 @@ module.exports = {
       minnesotaBotOpinions[
         Math.floor(Math.random() * minnesotaBotOpinions.length)
       ];
-    await interaction.reply({
-      content: botOpinion,
-      flags: MessageFlags.Ephemeral,
-    });
+    await interaction.reply({ content: botOpinion, ephemeral: true });
     await interaction.channel.send({ embeds: [embed] });
   },
 };

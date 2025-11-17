@@ -21,7 +21,7 @@ module.exports = {
     if (targetId === myId) {
       return interaction.reply({
         content: "THIS GUY 🫵 THINKS HE CAN BULLY THE GOAT 🤣🤣🤣",
-        flags: MessageFlags.Ephemeral,
+        ephemeral: false,
       });
     }
 
@@ -32,13 +32,13 @@ module.exports = {
       bulliedUsers.delete(targetId);
       await interaction.reply({
         content: `Ok, I'll stop bullying <@${targetId}>.`,
-        flags: MessageFlags.Ephemeral,
+        ephemeral: true,
       });
     } else {
       bulliedUsers.add(targetId);
       await interaction.reply({
         content: `fuck this guy: <@${targetId}>. They will now be bullied.`,
-        flags: MessageFlags.Ephemeral,
+        ephemeral: true,
       });
     }
   },

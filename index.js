@@ -165,12 +165,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp({
         content: "There was an error while executing this command!",
-        flags: MessageFlags.Ephemeral,
+        ephemeral: true,
       });
     } else {
       await interaction.reply({
         content: "there was an error while executing this command!",
-        flags: MessageFlags.Ephemeral,
+        ephemeral: true,
       });
     }
   }
