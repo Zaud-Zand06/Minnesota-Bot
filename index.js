@@ -59,7 +59,7 @@ const loca = "./bella.gif";
 const twilightRegex = /twilight|bella|loca/i;
 const gorpersRegex = /any gorpers tonight/i;
 const dontKys = "./pics/noDontKys.jpg";
-const kmsRegex = /kms|kill myself|end me|going to do it/i;
+const kmsRegex = /kms|kill myself|end me|\bi\b.*\bdo it\b[.!?]?$/i;
 
 const minnesotaFacts = [
   `The name "Minnesota" comes from Dakota Indigenous words meaning "sky-tinted waters" or "sky-blue waters."`,
