@@ -21,7 +21,7 @@ module.exports = {
     if (!voiceChannel) {
       return await interaction.followUp({
         content: "Join a voice channel before inviting Miku!!",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
     const connection = joinVoiceChannel({
@@ -32,7 +32,7 @@ module.exports = {
     });
     connection.on("stateChange", (oldState, newState) => {
       console.log(
-        `Connection transitioned from ${oldState.status} to ${newState.status}`
+        `Connection transitioned from ${oldState.status} to ${newState.status}`,
       );
     });
     const resource = createAudioResource(join(__dirname, "../../Mikudayo.wav"));
@@ -57,7 +57,7 @@ module.exports = {
     }
     player.on("stateChange", (oldState, newState) => {
       console.log(
-        `Audio player transitioned from ${oldState.status} to ${newState.status}`
+        `Audio player transitioned from ${oldState.status} to ${newState.status}`,
       );
     });
 

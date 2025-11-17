@@ -112,7 +112,10 @@ module.exports = {
     .setName("flame")
     .setDescription("harrass this person....NOW")
     .addUserOption((option) =>
-      option.setName("who").setDescription("whos it gonna be").setRequired(true)
+      option
+        .setName("who")
+        .setDescription("whos it gonna be")
+        .setRequired(true),
     ),
 
   async execute(interaction) {
@@ -121,11 +124,14 @@ module.exports = {
       let compliments = [];
       for (let i = 0; i < 5; i++) {
         const complimentsIndex = Math.floor(
-          Math.random() * wordListGood.length
+          Math.random() * wordListGood.length,
         );
         compliments.push(`<@${target}> ${wordListGood[complimentsIndex]}`);
       }
-      await interaction.reply({ content: "Nice try ;)", ephemeral: true });
+      await interaction.reply({
+        content: "Nice try ;)",
+        flags: MessageFlags.Ephemeral,
+      });
       for (let compliment of compliments) {
         await interaction.channel.send(compliment);
         await wait(250);
@@ -138,7 +144,7 @@ module.exports = {
       }
       await interaction.reply({
         content: "Get their ass....",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       for (let insult of insults) {
         await interaction.channel.send(insult);
