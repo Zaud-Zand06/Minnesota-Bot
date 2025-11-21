@@ -46,7 +46,7 @@ for (const folder of commandFolders) {
 }
 
 //response images and the regex for them
-const minnesota = "./minnesota.png";
+const minnesota = "./minnesota.png"
 const minnesotaRegex = /minnesota/i;
 const titanfallMentioned = "./tf2 mentioned.webp";
 const titanfallRegex = /titan\s?fall/i;
@@ -56,10 +56,9 @@ const canadaMentioend = "./canadamentioned.webp";
 const canadaRegex = /(alberta|canada|vancouver)/i;
 const jermaRegex = /jermas?/i;
 const loca = "./bella.gif";
-const twilightRegex = /twilight|bella|loca/i;
-const gorpersRegex = /any gorpers tonight/i;
+const twilightRegex = /\btwilight/i;
 const dontKys = "./pics/noDontKys.jpg";
-const kmsRegex = /kms|kill myself|end me|\bi\b.*\bdo it\b[.!?]?$/i;
+const kmsRegex = /\bkms|\bkill myself|\bend me|\bi\b.*\bdo it\b[.!?]?$/i;
 
 const minnesotaFacts = [
   `The name "Minnesota" comes from Dakota Indigenous words meaning "sky-tinted waters" or "sky-blue waters."`,
@@ -99,11 +98,6 @@ client.on("messageCreate", (msg) => {
     msg.author.id !== "1220688585708142623"
   ) {
     msg.reply({ files: [minnesota], content: fact });
-  }
-});
-client.on("messageCreate", (msg) => {
-  if (gorpersRegex.test(msg.content)) {
-    msg.reply({ content: `i'll be gorping tonight ;)` });
   }
 });
 
