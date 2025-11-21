@@ -46,7 +46,7 @@ for (const folder of commandFolders) {
 }
 
 //response images and the regex for them
-const minnesota = "./minnesota.png"
+const minnesota = "./minnesota.png";
 const minnesotaRegex = /minnesota/i;
 const titanfallMentioned = "./tf2 mentioned.webp";
 const titanfallRegex = /titan\s?fall/i;
