@@ -17,21 +17,19 @@ module.exports = {
   async execute(interaction) {
     const target = interaction.options.getMember("who");
     const targetId = target.id;
-
-    if (targetId === myId) {
-      return interaction.reply({
-        content: "THIS GUY 🫵 THINKS HE CAN BULLY THE GOAT 🤣🤣🤣",
-        ephemeral: false,
-      });
-    }
-
-    // Access the set from the client object
+    const executingUserId = interaction.user.id;
     const bulliedUsers = interaction.client.bulliedUsers;
 
+    if (bulliedUsers.has(executingUserId) && targetId === executingUserId) {
+      return interaction.reply({
+        content: `ask nicely :)`,
+        ephemeral: true,
+      });
+    }
     if (bulliedUsers.has(targetId)) {
       bulliedUsers.delete(targetId);
       await interaction.reply({
-        content: `Ok, I'll stop bullying <@${targetId}>.`,
+        content: `ok, I'll stop bullying <@${targetId}>.`,
         ephemeral: true,
       });
     } else {
