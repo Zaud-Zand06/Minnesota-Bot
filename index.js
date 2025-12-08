@@ -44,40 +44,19 @@ for (const folder of commandFolders) {
     }
   }
 }
-
-//response images and the regex for them
-const minnesota = "./minnesota.png";
-const minnesotaRegex = /minnesota/i;
-const titanfallMentioned = "./tf2 mentioned.webp";
-const titanfallRegex = /titan\s?fall/i;
-const helldiversMentioned = "./helldivers-mentioned.png";
-const hellDiverRegex = /hell\s?divers?/i;
-const canadaMentioend = "./canadamentioned.webp";
-const canadaRegex = /(alberta|canada|vancouver)/i;
-const jermaRegex = /jermas?/i;
-const loca = "./bella.gif";
-const twilightRegex = /\btwilight/i;
-const dontKys = "./pics/noDontKys.jpg";
-const kmsRegex = /\bkms|\bkill myself|\bend me|\bi\b.*\bdo it\b[.!?]?$/i;
-const ummCat = "./pics/umm.jpg";
-
-const minnesotaFacts = [
-  `The name "Minnesota" comes from Dakota Indigenous words meaning "sky-tinted waters" or "sky-blue waters."`,
-  "Minnesota has 11,842 lakes!",
-  "The Minnesota state bird is the Common Loon.",
-  "The state fish is the Walleye",
-  `We all know Prince and Bob Dylan, but Minnesota is home to Judy Garland, Robert Bly, and George "Pinky" Nelson!`,
-  "Minnesota is known for its tourism, and it's agriculture industries!",
-];
+const botId = "1220688585708142623";
 
 client.on("clientReady", () => {
   console.log(`Logged in as ${client.user.tag}! Started: ${new Date()}`);
 });
 
+const ummCat = "./umm.jpg";
 client.on("messageCreate", (msg) => {
   if (msg.author.bot) return;
-  let bullyMessageType = Math.floor(Math.random() * 2);
+  const userMessage = msg.content;
+  const meanMessage = `"ehrrrmmmmm actually... ${userMessage} 🤓🤓🤓"`;
 
+  let bullyMessageType = Math.floor(Math.random() * 2);
   if (client.bulliedUsers.has(msg.author.id)) {
     if (bullyMessageType === 0) {
       const replies = [
@@ -93,8 +72,6 @@ client.on("messageCreate", (msg) => {
         content: randomReply,
       });
     } else {
-      const userMessage = msg.content;
-      const meanMessage = `"ehrrrmmmmm actually... ${userMessage} 🤓🤓🤓"`;
       return msg.reply({
         files: [ummCat],
         content: meanMessage,
@@ -103,17 +80,26 @@ client.on("messageCreate", (msg) => {
   }
 });
 
+const minnesota = "./minnesota.png";
+const minnesotaRegex = /minnesota/i;
+const minnesotaFacts = [
+  `The name "Minnesota" comes from Dakota Indigenous words meaning "sky-tinted waters" or "sky-blue waters."`,
+  "Minnesota has 11,842 lakes!",
+  "The Minnesota state bird is the Common Loon.",
+  "The state fish is the Walleye",
+  `We all know Prince and Bob Dylan, but Minnesota is home to Judy Garland, Robert Bly, and George "Pinky" Nelson!`,
+  "Minnesota is known for its tourism, and it's agriculture industries!",
+];
 client.on("messageCreate", (msg) => {
   const fact =
     minnesotaFacts[Math.floor(Math.random() * minnesotaFacts.length)];
-  if (
-    minnesotaRegex.test(msg.content) &&
-    msg.author.id !== "1220688585708142623"
-  ) {
+  if (minnesotaRegex.test(msg.content) && msg.author.id !== botId) {
     msg.reply({ files: [minnesota], content: fact });
   }
 });
 
+const dontKys = "./noDontKys.jpg";
+const kmsRegex = /\bkms|\bkill myself|\bend me|\bi\b.*\bdo it\b[.!?]?$/i;
 client.on("messageCreate", (msg) => {
   const dylanId = "226529102352482324";
   if (msg.author.id === dylanId && kmsRegex.test(msg.content)) {
@@ -121,32 +107,33 @@ client.on("messageCreate", (msg) => {
   }
 });
 
+const helldiversMentioned = "./helldivers-mentioned.png";
+const hellDiverRegex = /hell\s?divers?/i;
 client.on("messageCreate", (msg) => {
-  if (hellDiverRegex.test(msg.content)) {
+  if (hellDiverRegex.test(msg.content) && msg.author.id !== botId) {
     msg.reply({ files: [helldiversMentioned] });
   }
 });
 
+const titanfallMentioned = "./tf2 mentioned.webp";
+const titanfallRegex = /titan\s?fall/i;
 client.on("messageCreate", (msg) => {
-  if (titanfallRegex.test(msg.content)) {
+  if (titanfallRegex.test(msg.content) && msg.author.id !== botId) {
     msg.reply({ files: [titanfallMentioned] });
   }
 });
 
+const canadaMentioend = "./canadamentioned.webp";
+const canadaRegex = /(alberta|canada|vancouver)/i;
 client.on("messageCreate", (msg) => {
-  if (canadaRegex.test(msg.content)) {
+  if (canadaRegex.test(msg.content) && msg.author.id !== botId) {
     msg.reply({ files: [canadaMentioend] });
   }
 });
 
+const jermaRegex = /jermas?/i;
 client.on("messageCreate", (msg) => {
-  if (twilightRegex.test(msg.content)) {
-    msg.reply({ files: [loca] });
-  }
-});
-
-client.on("messageCreate", (msg) => {
-  if (jermaRegex.test(msg.content)) {
+  if (jermaRegex.test(msg.content) && msg.author.id !== botId) {
     fs.readdir("./pics", (err, files) => {
       if (err) throw err;
       const file = files[Math.floor(Math.random() * files.length)];
@@ -169,6 +156,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
     await command.execute(interaction);
   } catch (error) {
     console.error(error);
+    console.log(
+      "error occured on " + new Date().toLocaleString() + "executing:",
+    );
+    console.log(interaction);
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp({
         content: "There was an error while executing this command!",
