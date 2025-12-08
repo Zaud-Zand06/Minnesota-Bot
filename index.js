@@ -47,7 +47,9 @@ for (const folder of commandFolders) {
 const botId = "1220688585708142623";
 
 client.on("clientReady", () => {
-  console.log(`Logged in as ${client.user.tag}! Started: ${new Date()}`);
+  console.log(
+    `Logged in as ${client.user.tag}! Started: ${new Date().toLocaleString()}`,
+  );
 });
 
 const ummCat = "./umm.jpg";
