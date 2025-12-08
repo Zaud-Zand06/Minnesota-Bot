@@ -59,6 +59,7 @@ const loca = "./bella.gif";
 const twilightRegex = /\btwilight/i;
 const dontKys = "./pics/noDontKys.jpg";
 const kmsRegex = /\bkms|\bkill myself|\bend me|\bi\b.*\bdo it\b[.!?]?$/i;
+const ummCat = "./pics/umm.jpg";
 
 const minnesotaFacts = [
   `The name "Minnesota" comes from Dakota Indigenous words meaning "sky-tinted waters" or "sky-blue waters."`,
@@ -75,18 +76,30 @@ client.on("clientReady", () => {
 
 client.on("messageCreate", (msg) => {
   if (msg.author.bot) return;
+  let bullyMessageType = Math.floor(Math.random() * 2);
 
   if (client.bulliedUsers.has(msg.author.id)) {
-    const replies = [
-      "your mom",
-      "lol ok boomer",
-      "says the nerd",
-      "nah",
-      "🤓 <---- this is you btw",
-      "mad cus bad or something",
-    ];
-    const randomReply = replies[Math.floor(Math.random() * replies.length)];
-    return msg.reply({ content: randomReply });
+    if (bullyMessageType === 0) {
+      const replies = [
+        "your mom",
+        "lol ok boomer",
+        "says the nerd",
+        "nah",
+        "🤓 <---- this is you btw",
+        "mad cus bad or something",
+      ];
+      const randomReply = replies[Math.floor(Math.random() * replies.length)];
+      return msg.reply({
+        content: randomReply,
+      });
+    } else {
+      const userMessage = msg.content;
+      const meanMessage = `"ehrrrmmmmm actually... ${userMessage} 🤓🤓🤓"`;
+      return msg.reply({
+        files: [ummCat],
+        content: meanMessage,
+      });
+    }
   }
 });
 
