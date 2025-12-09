@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require("discord.js");
 
-// You can keep your ID check if you want
 const myId = "267094035506659338";
+const botId = "1220688585708142623";
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -22,14 +22,18 @@ module.exports = {
 
     if (bulliedUsers.has(executingUserId) && targetId === executingUserId) {
       return interaction.reply({
-        content: `ask nicely :)`,
+        content: `ask someone nicely :)`,
         ephemeral: true,
       });
-    }
-    if (bulliedUsers.has(targetId)) {
+    } else if (bulliedUsers.has(targetId)) {
       bulliedUsers.delete(targetId);
       await interaction.reply({
         content: `ok, I'll stop bullying <@${targetId}>.`,
+        ephemeral: true,
+      });
+    } else if (targetId === botId) {
+      await interaction.reply({
+        content: "noooooooooo",
         ephemeral: true,
       });
     } else {

@@ -6,16 +6,12 @@ const RSS_FEED_URL = "https://letterboxd.com/colevelders/rss/";
 const postedEntries = new Set();
 
 function extractImageUrl(content) {
-  // The image is typically in an <img> tag in the content
   const imgRegex = /<img[^>]+src="([^">]+)"/;
   const match = content.match(imgRegex);
   return match ? match[1] : null;
 }
 
-// Helper function to extract rating from entry
 function extractRating(entry) {
-  // Ratings often appear in the title or content
-  // Example title: "username watched The Matrix ★★★★½"
   if (entry.title) {
     const ratingMatch = entry.title.match(/([★½]+)$/);
     if (ratingMatch) {
