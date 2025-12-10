@@ -7,12 +7,22 @@ const ready = (async () => {
 })();
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 require("dotenv").config();
-const mySteam = "https://steamcommunity.com/profiles/76561198081258574/";
-const dylanSteam = "https://steamcommunity.com/profiles/76561198131394179/";
-const kadeSteam = "https://steamcommunity.com/profiles/76561198810115119/";
-const megSteam = "https://steamcommunity.com/profiles/76561198186979293/";
-const coleSteam = "https://steamcommunity.com/id/fabernathy/";
-const aidanSteam = "https://steamcommunity.com/id/BeanKingAidan/";
+
+const steamProfiles = new Map();
+steamProfiles.set(
+  "267094035506659338",
+  "https://steamcommunity.com/profiles/76561198081258574/", // alex
+  "286695254499786753",
+  "https://steamcommunity.com/id/fabernathy/", // cole
+  "110925753574490112",
+  "https://steamcommunity.com/id/BeanKingAidan/", // aidan
+  "226529102352482324",
+  "https://steamcommunity.com/profiles/76561198131394179/", // dylan
+  "699049145318768710",
+  "https://steamcommunity.com/profiles/76561198810115119/", // kade
+  "510182560232505344",
+  "https://steamcommunity.com/profiles/76561198186979293/", // meg
+);
 
 async function getUserId(steamProfile) {
   await ready;
@@ -43,7 +53,7 @@ async function getMultiplayerGames(arrayOfGames) {
       } else {
         console.log(
           "Game details not found or missing categories:",
-          arrayOfGames[index].game.id
+          arrayOfGames[index].game.id,
         );
       }
     } catch (error) {
@@ -58,11 +68,12 @@ async function compareGames(firstUser, secondUser) {
   console.log("Steam is ready:", !!steam);
   let sharedGames = [];
   let firstUserGames = await steam.getUserOwnedGames(
-    await getUserId(firstUser)
+    await getUserId(firstUser),
   );
   let secondUserGames = await steam.getUserOwnedGames(
-    await getUserId(secondUser)
+    await getUserId(secondUser),
   );
+  //TODO: optimize this nested loop
   for (let index = 0; index < firstUserGames.length; index++) {
     for (let jindex = 0; jindex < secondUserGames.length; jindex++) {
       if (firstUserGames[index].game.id == secondUserGames[jindex].game.id) {
@@ -84,58 +95,14 @@ module.exports = {
       option
         .setName("clanmate")
         .setDescription("Check what games you two have in common")
-        .setRequired(true)
+        .setRequired(true),
     ),
 
   async execute(interaction) {
-    let executor = undefined;
-    let toBeChecked = undefined;
-    switch (interaction.user.globalName) {
-      case "Zodhand":
-        executor = mySteam;
-        break;
-      case "BeanKingAidan":
-        executor = aidanSteam;
-        break;
-      case "Fabernathy":
-        executor = coleSteam;
-        break;
-      case "kadam":
-        executor = kadeSteam;
-        break;
-      case "squeezemyjuice" || "dylan":
-        executor = dylanSteam;
-        break;
-      case "Hellion":
-        executor = megSteam;
-        break;
-      default:
-        "no matching clanmate :(";
-        break;
-    }
-    switch (interaction.options.getMember("clanmate").user.globalName) {
-      case "Zodhand":
-        toBeChecked = mySteam;
-        break;
-      case "BeanKingAidan":
-        toBeChecked = aidanSteam;
-        break;
-      case "Fabernathy":
-        toBeChecked = coleSteam;
-        break;
-      case "kadam":
-        toBeChecked = kadeSteam;
-        break;
-      case "squeezemyjuice":
-        toBeChecked = dylanSteam;
-        break;
-      case "Hellion":
-        toBeChecked = megSteam;
-        break;
-      default:
-        "no matching clanmate :(";
-        break;
-    }
+    const executor = steamProfiles.get(interaction.user.id);
+    const toBeChecked = steamProfiles.get(
+      interaction.option.getMember("clanmate").id,
+    );
 
     await interaction.deferReply();
     const theGames = await compareGames(executor, toBeChecked);
@@ -147,7 +114,7 @@ module.exports = {
         .setDescription(
           `all the games that ${interaction.user.globalName} and ${
             interaction.options.getMember("clanmate").user.globalName
-          } share on steam`
+          } share on steam`,
         ),
     ];
 
@@ -164,7 +131,7 @@ module.exports = {
       embed.push(
         new EmbedBuilder()
           .setTitle("The Games Pg 2")
-          .setDescription("more games")
+          .setDescription("more games"),
       );
 
       while (index < theGames.length) {
