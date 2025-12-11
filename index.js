@@ -101,7 +101,8 @@ client.on("messageCreate", (msg) => {
 });
 
 const dontKys = "./noDontKys.jpg";
-const kmsRegex = /\bkms|\bkill myself|\bend me|\bi\b.*\bdo it\b[.!?]?$/i;
+const kmsRegex =
+  /\bkms|\bkill myself|\bend me|\b(?:i|i'm|im|i'll|ill)\b.*\bdo it\b[.!?]?$/i;
 client.on("messageCreate", (msg) => {
   const dylanId = "226529102352482324";
   if (msg.author.id === dylanId && kmsRegex.test(msg.content)) {
