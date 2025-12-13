@@ -100,9 +100,8 @@ module.exports = {
 
   async execute(interaction) {
     const executor = steamProfiles.get(interaction.user.id);
-    const toBeChecked = steamProfiles.get(
-      interaction.option.getMember("clanmate").id,
-    );
+    const toBeCheckedId = interaction.options.getMember("clanmate").id;
+    const toBeChecked = steamProfiles.get(toBeCheckedId);
 
     await interaction.deferReply();
     const theGames = await compareGames(executor, toBeChecked);

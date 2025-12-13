@@ -159,7 +159,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
   } catch (error) {
     console.error(error);
     console.log(
-      "error occured on " + new Date().toLocaleString() + "executing:",
+      "error occured on " +
+        new Date().toLocaleString() +
+        "on this interaction:",
     );
     console.log(interaction);
     if (interaction.replied || interaction.deferred) {
