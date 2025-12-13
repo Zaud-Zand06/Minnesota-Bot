@@ -83,6 +83,9 @@ client.on("messageCreate", (msg) => {
 });
 
 const minnesota = "./minnesota.png";
+const garlik = "./garlik.png";
+const norman = "./norman.png";
+const crampette = "./crampette.png";
 const minnesotaRegex = /minnesota/i;
 const minnesotaFacts = [
   `The name "Minnesota" comes from Dakota Indigenous words meaning "sky-tinted waters" or "sky-blue waters."`,
@@ -95,8 +98,19 @@ const minnesotaFacts = [
 client.on("messageCreate", (msg) => {
   const fact =
     minnesotaFacts[Math.floor(Math.random() * minnesotaFacts.length)];
-  if (minnesotaRegex.test(msg.content) && msg.author.id !== botId) {
-    msg.reply({ files: [minnesota], content: fact });
+  const imageChange = Math.floor(Math.random() * 50);
+  if (imageChange === 50) {
+    if (minnesotaRegex.test(msg.content) && msg.author.id !== botId) {
+      msg.reply({ files: [norman], content: `"WOOOOO NORMAN" --Meg` });
+    }
+  } else if (imageChange <= 49 && imageChange > 40) {
+    if (minnesotaRegex.test(msg.content) && msg.author.id !== botId) {
+      msg.reply({ files: [crampette], content: `"CRAMPETTE TIME" --Meg` });
+    }
+  } else {
+    if (minnesotaRegex.test(msg.content) && msg.author.id !== botId) {
+      msg.reply({ files: [minnesota], content: fact });
+    }
   }
 });
 
