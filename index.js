@@ -161,6 +161,7 @@ client.on("messageCreate", (msg) => {
 });
 
 //event listener for slash commands
+const userTimestamps = {};
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
   const command = interaction.client.commands.get(interaction.commandName);
@@ -168,13 +169,28 @@ client.on(Events.InteractionCreate, async (interaction) => {
     console.error(`No command matching ${interaction.commandName} was found.`);
     return;
   }
+  // cooldown for dyl
+  const now = Date.now();
+  const lastTime = userTimestamps["699049145318768710"] || 0;
+  if (interaction.user.id === "699049145318768710") {
+    if (now - lastTime < 10000) {
+      await interaction.reply({
+        content: "fuck u dyl",
+        ephemeral: true,
+      });
+      return;
+    }
+  }
 
+  userTimestamps["699049145318768710"] = now;
   try {
     await command.execute(interaction);
   } catch (error) {
     console.error(error);
     console.log(
-      "error occured on " + new Date().toLocaleString() + "executing:",
+      "error occured on " +
+        new Date().toLocaleString() +
+        "on this interaction:",
     );
     console.log(interaction);
     if (interaction.replied || interaction.deferred) {

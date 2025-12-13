@@ -23,7 +23,7 @@ module.exports = {
 
   async execute(interaction) {
     const aidanFootPic = new AttachmentBuilder(
-      path.join(__dirname, "../../pics/aidanFoot.png")
+      path.join(__dirname, "../../aidanFoot.png"),
     );
     await interaction.reply({
       content: "mmmmmmmmmmmm",

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require("discord.js");
 const path = require("path");
-const wolfHowl = path.join(__dirname, "../../pics/wolfHowl.png");
+const wolfHowl = path.join(__dirname, "../../wolfHowl.png");
 
 module.exports = {
   data: new SlashCommandBuilder()
