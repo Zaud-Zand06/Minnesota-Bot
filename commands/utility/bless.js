@@ -147,20 +147,19 @@ module.exports = {
         await interaction.reply({ content: "Thanks :)", ephemeral: true });
       for (let compliment of compliments) {
         await interaction.channel.send(compliment);
-        await wait(250);
       }
     } else {
-      let insults = [];
+      let compliments = [];
       for (let i = 0; i < 10; i++) {
-        const insultIndex = Math.floor(Math.random() * wordList.length);
-        insults.push(`<@${target}> ${wordList[insultIndex]}`);
+        const complimentIndex = Math.floor(Math.random() * wordList.length);
+        compliments.push(`<@${target}> ${wordList[complimentIndex]}`);
       }
       await interaction.reply({
         content: "Bless their ass....",
         ephemeral: true,
       });
-      for (let insult of insults) {
-        await interaction.channel.send(insult);
+      for (let compliment of compliments) {
+        await interaction.channel.send(compliment);
       }
     }
   },
