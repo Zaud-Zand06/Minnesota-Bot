@@ -109,7 +109,7 @@ function wait(ms) {
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("flame")
+    .setName("taunt")
     .setDescription("harrass this person....NOW")
     .addUserOption((option) =>
       option.setName("who").setDescription("whos it gonna be").setRequired(true)

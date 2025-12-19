@@ -18,7 +18,7 @@ const client = new Client({
     GatewayIntentBits.GuildVoiceStates,
     // Add other intents as needed
   ],
-  partials: ["MESSGE", "CHANNEL", "REACTION"],
+  partials: ["MESSAGE", "CHANNEL", "REACTION"],
   messageCacheMaxSize: 100,
 });
 
