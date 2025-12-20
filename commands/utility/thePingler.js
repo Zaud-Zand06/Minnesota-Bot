@@ -8,7 +8,7 @@ module.exports = {
     .addUserOption((option) =>
       option.setName("who").setDescription("who do you need").setRequired(true),
     )
-    .addIntergerOption((option) =>
+    .addIntegerOption((option) =>
       option
         .setName("count")
         .setDescription("how many times to ping")
