@@ -1,7 +1,6 @@
 require("dotenv").config(); //initializes dotenvimport
 const fs = require("fs");
 const path = require("path");
-const { joinVoiceChannel } = require("@discordjs/voice");
 const {
   Client,
   GatewayIntentBits,
@@ -51,37 +50,7 @@ client.on("clientReady", () => {
     `Logged in as ${client.user.tag}! Started: ${new Date().toLocaleString()}`,
   );
 });
-
 const ummCat = "./umm.jpg";
-client.on("messageCreate", (msg) => {
-  if (msg.author.bot) return;
-  const userMessage = msg.content;
-  const meanMessage = `"ehrrrmmmmm actually... ${userMessage} 🤓🤓🤓"`;
-
-  let bullyMessageType = Math.floor(Math.random() * 2);
-  if (client.bulliedUsers.has(msg.author.id)) {
-    if (bullyMessageType === 0) {
-      const replies = [
-        "your mom",
-        "lol ok boomer",
-        "says the nerd",
-        "nah",
-        "🤓 <---- this is you btw",
-        "mad cus bad or something",
-      ];
-      const randomReply = replies[Math.floor(Math.random() * replies.length)];
-      return msg.reply({
-        content: randomReply,
-      });
-    } else {
-      return msg.reply({
-        files: [ummCat],
-        content: meanMessage,
-      });
-    }
-  }
-});
-
 const minnesota = "./minnesota.png";
 const garlik = "./garlik.png";
 const norman = "./norman.png";
@@ -95,62 +64,65 @@ const minnesotaFacts = [
   `We all know Prince and Bob Dylan, but Minnesota is home to Judy Garland, Robert Bly, and George "Pinky" Nelson!`,
   "Minnesota is known for its tourism, and it's agriculture industries!",
 ];
-client.on("messageCreate", (msg) => {
-  const fact =
-    minnesotaFacts[Math.floor(Math.random() * minnesotaFacts.length)];
-  const imageChange = Math.floor(Math.random() * 50);
-  if (imageChange === 50) {
-    if (minnesotaRegex.test(msg.content) && msg.author.id !== botId) {
-      msg.reply({ files: [norman], content: `"WOOOOO NORMAN" --Meg` });
-    }
-  } else if (imageChange <= 49 && imageChange > 40) {
-    if (minnesotaRegex.test(msg.content) && msg.author.id !== botId) {
-      msg.reply({ files: [crampette], content: `"CRAMPETTE TIME" --Meg` });
-    }
-  } else {
-    if (minnesotaRegex.test(msg.content) && msg.author.id !== botId) {
-      msg.reply({ files: [minnesota], content: fact });
-    }
-  }
-});
-
+const helldiversMentioned = "./helldivers-mentioned.png";
+const hellDiverRegex = /hell\s?divers?/i;
+const titanfallMentioned = "./tf2 mentioned.webp";
+const titanfallRegex = /titan\s?fall/i;
+const canadaMentioend = "./canadamentioned.webp";
+const canadaRegex = /(alberta|canada|vancouver)/i;
+const jermaRegex = /jermas?/i;
 const dontKys = "./noDontKys.jpg";
 const kmsRegex =
   /\bkms|\bkill myself|\bend me|\b(?:i|i'm|im|i'll|ill)\b.*\bdo it\b[.!?]?$/i;
+
 client.on("messageCreate", (msg) => {
   const dylanId = "226529102352482324";
-  if (msg.author.id === dylanId && kmsRegex.test(msg.content)) {
+  if (msg.author.bot) {
+    return;
+  }
+  const meanMessage = `"ehrrrmmmmm actually... ${msg.content} 🤓🤓🤓"`;
+  if (client.bulliedUsers.has(msg.author.id)) {
+    const bullyMessageType = Math.floor(Math.random() * 2);
+    if (bullyMessageType === 0) {
+      const replies = [
+        "your mom",
+        "lol ok boomer",
+        "says the nerd",
+        "nah",
+        "🤓 <---- this is you btw",
+        "mad cus bad or something",
+      ];
+      const randomReply = replies[Math.floor(Math.random() * replies.length)];
+      msg.reply({ content: randomReply });
+    } else {
+      msg.reply({ files: [ummCat], content: meanMessage });
+    }
+  }
+  if (minnesotaRegex.test(msg.content)) {
+    const fact =
+      minnesotaFacts[Math.floor(Math.random() * minnesotaFacts.length)];
+    const imageChange = Math.floor(Math.random() * 51);
+    if (imageChange === 50) {
+      msg.reply({ files: [norman], content: `"WOOOOO NORMAN" --Meg` });
+    } else if (imageChange <= 49 && imageChange > 40) {
+      msg.reply({ files: [crampette], content: `"CRAMPETTE TIME" --Meg` });
+    } else if (imageChange <= 40 && imageChange > 30) {
+      msg.reply({
+        files: [garlik],
+        content: `"I fucking hate that stupid mutt" --Meg`,
+      });
+    } else {
+      msg.reply({ files: [minnesota], content: fact });
+    }
+  } else if (msg.author.id === dylanId && kmsRegex.test(msg.content)) {
     msg.reply({ files: [dontKys] });
-  }
-});
-
-const helldiversMentioned = "./helldivers-mentioned.png";
-const hellDiverRegex = /hell\s?divers?/i;
-client.on("messageCreate", (msg) => {
-  if (hellDiverRegex.test(msg.content) && msg.author.id !== botId) {
+  } else if (hellDiverRegex.test(msg.content)) {
     msg.reply({ files: [helldiversMentioned] });
-  }
-});
-
-const titanfallMentioned = "./tf2 mentioned.webp";
-const titanfallRegex = /titan\s?fall/i;
-client.on("messageCreate", (msg) => {
-  if (titanfallRegex.test(msg.content) && msg.author.id !== botId) {
+  } else if (titanfallRegex.test(msg.content)) {
     msg.reply({ files: [titanfallMentioned] });
-  }
-});
-
-const canadaMentioend = "./canadamentioned.webp";
-const canadaRegex = /(alberta|canada|vancouver)/i;
-client.on("messageCreate", (msg) => {
-  if (canadaRegex.test(msg.content) && msg.author.id !== botId) {
+  } else if (canadaRegex.test(msg.content)) {
     msg.reply({ files: [canadaMentioend] });
-  }
-});
-
-const jermaRegex = /jermas?/i;
-client.on("messageCreate", (msg) => {
-  if (jermaRegex.test(msg.content) && msg.author.id !== botId) {
+  } else if (jermaRegex.test(msg.content)) {
     fs.readdir("./pics", (err, files) => {
       if (err) throw err;
       const file = files[Math.floor(Math.random() * files.length)];
