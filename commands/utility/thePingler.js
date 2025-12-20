@@ -17,7 +17,7 @@ module.exports = {
 
   async execute(interaction) {
     const target = interaction.options.getMember("who").id;
-    const pingAmount = interaction.options.getInterget("count");
+    const pingAmount = interaction.options.getInteger("count");
     if (pingAmount > 25) {
       return interaction.reply({
         content: "too many pings! max is 25",
