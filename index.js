@@ -74,7 +74,8 @@ const jermaRegex = /jermas?/i;
 const dontKys = "./noDontKys.jpg";
 const kmsRegex =
   /\bkms|\bkill myself|\bend me|\b(?:i|i'm|im|i'll|ill)\b.*\bdo it\b[.!?]?$/i;
-
+const kirkRegex = /\bkirklings?/i;
+const kirkCoffee = "./kirkCoffee.gif";
 client.on("messageCreate", (msg) => {
   const dylanId = "226529102352482324";
   if (msg.author.bot) {
@@ -122,6 +123,11 @@ client.on("messageCreate", (msg) => {
     msg.reply({ files: [titanfallMentioned] });
   } else if (canadaRegex.test(msg.content)) {
     msg.reply({ files: [canadaMentioend] });
+  } else if (kirkRegex.text(msg.content)) {
+    msg.reply({
+      files: [kirkCoffee],
+      content: "KIRKLINGS DETECTED. INITIATING KIRKLING PROTOCOL.",
+    });
   } else if (jermaRegex.test(msg.content)) {
     fs.readdir("./pics", (err, files) => {
       if (err) throw err;
