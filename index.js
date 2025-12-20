@@ -123,7 +123,7 @@ client.on("messageCreate", (msg) => {
     msg.reply({ files: [titanfallMentioned] });
   } else if (canadaRegex.test(msg.content)) {
     msg.reply({ files: [canadaMentioend] });
-  } else if (kirkRegex.text(msg.content)) {
+  } else if (kirkRegex.test(msg.content)) {
     msg.reply({
       files: [kirkCoffee],
       content: "KIRKLINGS DETECTED. INITIATING KIRKLING PROTOCOL.",
