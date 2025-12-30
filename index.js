@@ -15,7 +15,6 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildVoiceStates,
-    // Add other intents as needed
   ],
   partials: ["MESSAGE", "CHANNEL", "REACTION"],
   messageCacheMaxSize: 100,
@@ -73,7 +72,7 @@ const canadaRegex = /(alberta|canada|vancouver)/i;
 const jermaRegex = /jermas?/i;
 const dontKys = "./noDontKys.jpg";
 const kmsRegex =
-  /\bkms|\bkill myself|\bend me|\b(?:i|i'm|im|i'll|ill)\b.*\bdo it\b[.!?]?$/i;
+  /\bkms|\bkill (?:me|myself)|\boff myself|blow my \w+ off|\bend (?:me|myself)|\b(?:i|i'm|im|i'll|ill)\b.*\bdo it\b[.!?]?$/i;
 const kirkRegex = /\bkirklings?/i;
 const kirkCoffee = "./kirkCoffee.gif";
 client.on("messageCreate", (msg) => {
